@@ -1,71 +1,31 @@
-import 'leaflet/dist/leaflet.css';
-import './api.js';
-import './avatar.js';
-import './cards.js';
-import './form.js';
-import './map.js';
-import './photo.js';
-import './popup.js';
+﻿// const getRandomInt = (min, max) => {
+//   if (min >=0 && max >= 0) {
+//     if (max - min > 0) {
+//       return Math.floor(Math.random() * (max - min + 1) + min);
+//     } else {
+//       return'Подумай хорошенько'
+//     }
 
-import {
-  renderCards,
-  resetMainPinMarker,
-  setUpMap,
-  STARTING_LATITUDE,
-  STARTING_LONGITUDE
-} from './map.js';
-import { getData } from './api.js';
-import { clearOutImage, showAlert } from './util.js';
-import {
-  adForm,
-  adFormResetButton,
-  advertisementFormSubmit,
-  deactivateMapForm,
-  fillAddress,
-  onResetAdForm
-} from './form.js';
-import { showErrorPopup, showSuccessPopup } from './popup.js';
-import { deactivateFilter, filterForm, setFilterChange } from './filter.js';
+//   } else {
+//     return 'Укажите положительный диапазон'
+//   }
 
-import { PHOTO_DEFAULT, previewPhoto } from './photo.js';
-import { AVATAR_DEFAULT, previewAvatar } from './avatar';
+// }
 
-const ALERT_MESSAGE = 'Не удалось загрузить данные об объектах';
-const GET_URL = 'https://22.javascript.pages.academy/keksobooking/data';
-const ADDS_COUNT = 10;
-const MIN_ADDS = 0;
+// console.log(getRandomInt(1, 10))
 
-let advertisementsToRender = [];
+const getRandomInt = (min, max, num) => {
+  if (min >=0 && max >= 0) {
+    if (max - min > 0) {
+      return Number((Math.random() * (max - min) + min).toFixed(num));
+    } else {
+      return'Подумай хорошенько'
+    }
+  } else {
+    return 'Укажите положительный диапазон'
+  }
 
-const setDefaults = () => {
-  filterForm.reset();
-  adForm.reset();
-  clearOutImage(previewAvatar, AVATAR_DEFAULT);
-  clearOutImage(previewPhoto, PHOTO_DEFAULT);
-  resetMainPinMarker();
-  onResetAdForm();
-  renderCards(advertisementsToRender);
-  fillAddress(STARTING_LATITUDE, STARTING_LONGITUDE);
-};
+}
 
-deactivateMapForm();
-deactivateFilter();
+console.log(getRandomInt(1, 10, 5));
 
-getData(GET_URL, (advertisements) => {
-  advertisementsToRender = advertisements.slice(MIN_ADDS, ADDS_COUNT);
-  setUpMap(advertisementsToRender);
-  setFilterChange(advertisementsToRender);
-  adFormResetButton.addEventListener('click', (evt) => {
-    evt.preventDefault();
-    setDefaults();
-  });
-}, showAlert(ALERT_MESSAGE));
-
-advertisementFormSubmit(() => {
-  showSuccessPopup();
-  setDefaults();
-}, showErrorPopup);
-
-
-export { MIN_ADDS };
-export { ADDS_COUNT };
