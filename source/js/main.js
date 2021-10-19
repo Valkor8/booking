@@ -41,16 +41,14 @@ const avatar = [
 ];
 
 const title = 'Заголовок';
-const adress = getRandomFloat(1, 180, 2) + ', ' + getRandomFloat(1, 180, 2);
-const price = getRandomInt(100, 1000);
+
 const type = [
   'palace',
   'flat',
   'house',
   'bungalow',
 ];
-const rooms = getRandomInt(1, 10);
-const guests = getRandomInt(1, 15);
+
 const checkin = [
   '12:00',
   '13:00',
@@ -79,54 +77,64 @@ const photo = [
 ];
 
 const author = () => {
-  const randomAvatar = getRandomInt(0, avatar.length - 1)
+  const randomAvatar = getRandomInt(0, avatar.length - 1);
 
   return  {
     avatar: avatar[randomAvatar],
-  }
-}
-
-// const getRandomArrayLength = (arr) => {
-//   // return arr.splice(getRandomInt(0, arr.length - 1), getRandomInt(0, arr.length - 1))
-// }
-
-const getRandomArrayLength = features.map((value, index, array) =>{
-  return value
-})
-
-// console.log(getRandomArrayLength(features))
-console.log(getRandomArrayLength)
+  };
+};
 
 const getRandomArrayElement = (elemetns) => {
   return elemetns[getRandomInt(0, elemetns.length - 1)];
 };
 
-const offer = (source, maxlength) => {
+const getRandomArrayLength = (arr) => {
+  return arr.slice(getRandomInt(0, arr.length - 1));
+};
 
+const offer = () => {
   return {
     title: title,
-    adress: adress,
-    price: price,
+    adress: getRandomFloat(1, 180, 2) + ', ' + getRandomFloat(1, 180, 2),
+    price: getRandomInt(10000, 100000),
     type: getRandomArrayElement(type),
-    rooms: rooms,
-    guests: guests,
+    rooms: getRandomInt(1, 10),
+    guests: getRandomInt(1, 15),
     checkin: getRandomArrayElement(checkin),
     checkout: getRandomArrayElement(checkout),
-    features: features,
+    features: getRandomArrayLength(features),
     description: description,
-    photo: photo,
-  }
-}
+    photo: getRandomArrayLength(photo),
+  };
+};
 
-// console.log(offer())
+const coordinates = () => {
+  return {
+    x: getRandomFloat(35.65000, 35.70000, 5),
+    y: getRandomFloat(139.70000, 139.80000, 5),
+  };
+};
 
 const obj = () => {
-
   return {
     author: author(),
-    offer: '',
-    location: '',
-  }
+    offer: offer(),
+    location: coordinates(),
+  };
 }
 
-// console.log(obj())
+
+// const getArray = () => {
+//   let array = []
+//   for (let i = 0; i <= 9; i++) {
+//     array[i] = obj()
+//   }
+//   return array;
+// }
+
+//
+
+const getArray = new Array(10).fill(null).map(() => obj());
+
+console.log(getArray);
+
