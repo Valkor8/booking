@@ -22,7 +22,7 @@ const getRandomArrayLength = (arr) => {
 const offer = () => {
   return {
     title: title,
-    adress: getRandomFloat(1, 180, 2) + ', ' + getRandomFloat(1, 180, 2),
+    address: getRandomFloat(1, 180, 2) + ', ' + getRandomFloat(1, 180, 2),
     price: getRandomInt(10000, 100000),
     type: getRandomArrayElement(type),
     rooms: getRandomInt(1, 10),
@@ -64,4 +64,4 @@ const getArray = new Array(10).fill(null).map(() => obj());
 
 console.log(getArray);
 
-// export {getArray};
+export {getArray};
