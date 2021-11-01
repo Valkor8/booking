@@ -42,7 +42,7 @@ const description = 'Хорошее, красивое и просторное п
 const photo = [
   'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
-  'http://o0.github.io/assets/images/tokyo/hotel3.jpg0,',
+  'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
 ];
 
 export {avatar, title, type, checkin, checkout, features, description, photo};
