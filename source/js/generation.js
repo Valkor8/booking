@@ -1,5 +1,3 @@
-// import {getRandomInt} from './random.js';
-// import {getRandomFloat} from './random.js';
 import { getArray } from './object.js';
 
 const templateCard = document.querySelector('#card').content;
@@ -17,6 +15,7 @@ const typeHome = (home) => {
   }
 };
 
+const cardFragment = document.createDocumentFragment();
 
 getArray.forEach( (elementBooking) => {
   const bookingElement = templateCard.cloneNode(true);
@@ -27,24 +26,24 @@ getArray.forEach( (elementBooking) => {
   bookingElement.querySelector('.popup__text--capacity').textContent = elementBooking.offer.rooms + ' комнаты для ' + elementBooking.offer.guests + ' гостей';
   bookingElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + elementBooking.offer.checkin + ' выезд до ' + elementBooking.offer.checkout;
 
-  bookingElement.querySelector('.popup__features').innerHTML = ''
+  bookingElement.querySelector('.popup__features').innerHTML = '';
 
-  elementBooking.offer.features.forEach((index) => {
+  elementBooking.offer.features.forEach((elem) => {
     const genFeatures =  bookingElement.querySelector('.popup__features');
-    if(index == 'wifi') {
+    if(elem == 'wifi') {
       genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--wifi"></li>');
-    } if(index == 'dishwasher') {
+    } if(elem == 'dishwasher') {
       genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--dishwasher"></li>');
-    } if(index == 'parking') {
+    } if(elem == 'parking') {
       genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--parking"></li>');
-    } if(index == 'whaser') {
+    } if(elem == 'whaser') {
       genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--washer"></li>');
-    } if(index == 'elevator') {
+    } if(elem == 'elevator') {
       genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--elevator"></li>');
-    } if(index == 'conditioner') {
+    } if(elem == 'conditioner') {
       genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--conditioner"></li>');
     }
-  })
+  });
 
   bookingElement.querySelector('.popup__description').textContent = elementBooking.offer.description;
   bookingElement.querySelector('.popup__photos').innerHTML = ''
@@ -53,5 +52,21 @@ getArray.forEach( (elementBooking) => {
     bookingElement.querySelector('.popup__photo').setAttribute('src', elem);
   });
 
-  testDiv.appendChild(bookingElement);
+  if(!elementBooking.author.avatar) {
+    bookingElement.querySelector('.popup__avatar').style.display = 'none';
+  } else {
+    bookingElement.querySelector('.popup__avatar').setAttribute('src', elementBooking.author.avatar);
+  }
+
+  bookingElement.querySelector('.popup').style.border = '2px solid red';
+  bookingElement.querySelector('.popup').style.margin = '0 10px 10px 0';
+  bookingElement.querySelector('.popup').style.padding = '2px';
+  bookingElement.querySelector('.popup').style.width = '250px';
+  testDiv.style.display = 'flex';
+  testDiv.style.flexWrap = 'wrap';
+
+
+  cardFragment.appendChild(bookingElement);
 });
+
+testDiv.appendChild(cardFragment);

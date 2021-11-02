@@ -1,12 +1,12 @@
 const avatar = [
-  '/source/img/avatars/user01.png',
-  '/source/img/avatars/user02.png',
-  '/source/img/avatars/user03.png',
-  '/source/img/avatars/user04.png',
-  '/source/img/avatars/user05.png',
-  '/source/img/avatars/user06.png',
-  '/source/img/avatars/user07.png',
-  '/source/img/avatars/user08.png',
+  './img/avatars/user01.png',
+  './img/avatars/user02.png',
+  './img/avatars/user03.png',
+  './img/avatars/user04.png',
+  './img/avatars/user05.png',
+  './img/avatars/user06.png',
+  './img/avatars/user07.png',
+  './img/avatars/user08.png',
 ];
 
 const title = 'Заголовок';

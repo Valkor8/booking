@@ -1,7 +1,10 @@
-const getRandomInt = (min, max) => {
+const getRandomInt = (min, max, rounding) => {
+  if(!rounding) {
+    rounding = 1;
+  }
   if (min >=0 && max >= 0) {
     if (max - min >= 0) {
-      return Math.floor(Math.random() * (max - min + 1) + min);
+      return ((Math.floor(Math.random() * (max - min + 1) + min)) * rounding);
     } else {
       return'Подумай хорошенько'
     }
@@ -10,8 +13,6 @@ const getRandomInt = (min, max) => {
     return 'Укажите положительный диапазон'
   }
 };
-
-// console.log(getRandomInt(1, 10))
 
 const getRandomFloat = (min, max, num) => {
   if (min >=0 && max >= 0) {

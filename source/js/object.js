@@ -4,11 +4,11 @@ import {avatar, title, type, checkin, checkout, features, description, photo} fr
 
 
 const author = () => {
-  const randomAvatar = getRandomInt(0, avatar.length - 1);
+  const randomAvatar = avatar.splice(getRandomInt(0, avatar.length - 1), 1).join('');
 
-  return  {
-    avatar: avatar[randomAvatar],
-  };
+  return {
+    avatar: randomAvatar,
+  }
 };
 
 const getRandomArrayElement = (elemetns) => {
@@ -23,7 +23,7 @@ const offer = () => {
   return {
     title: title,
     address: getRandomFloat(1, 180, 2) + ', ' + getRandomFloat(1, 180, 2),
-    price: getRandomInt(10000, 100000),
+    price: getRandomInt(10, 100, 100),
     type: getRandomArrayElement(type),
     rooms: getRandomInt(1, 5),
     guests: getRandomInt(1, 10),
@@ -62,6 +62,6 @@ const obj = () => {
 
 const getArray = new Array(10).fill(null).map(() => obj());
 
-console.log(getArray);
+// console.log(getArray);
 
 export {getArray};
