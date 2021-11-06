@@ -1,56 +1,113 @@
+<!-- <!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+
+    li {
+      cursor: pointer;
+      width: min-content;
+    }
+
+    span:hover {
+      font-weight: 700;
+    }
+
+  </style>
+</head>
+<body>
+
+  <ul class="tree" id="tree">
+    <li><span>Животные</span>
+      <ul>
+        <li><span>Млекопитающие</span>
+          <ul>
+            <li>Коровы</li>
+            <li>Ослы</li>
+            <li>Собаки</li>
+            <li>Тигры</li>
+          </ul>
+        </li>
+        <li><span>Другие</span>
+          <ul>
+            <li>Змеи</li>
+            <li>Птицы</li>
+            <li>Ящерицы</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><span>Рыбы</span>
+      <ul>
+        <li><span>Аквариумные</span>
+          <ul>
+            <li>Гуппи</li>
+            <li>Скалярии</li>
+          </ul>
+        </li>
+        <li><span>Морские</span>
+          <ul>
+            <li>Морская форель</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+
+  <script>
+    let tree = document.querySelector('.tree')
+    tree.addEventListener('click', function(event) {
+      let toggle = event.target.closest('span');
+      let ul = toggle.nextElementSibling
+
+      if(!toggle) return;
+
+      if(ul.style.display != 'none') {
+        ul.style.display = 'none'
+      } else {
+        ul.style.display = 'block'
+      }
+    });
+  </script>
+
+</body>
+</html> -->
+
+
+
 <!DOCTYPE HTML>
 <html>
 
 <head>
   <meta charset="utf-8">
   <style>
-    #field {
-      width: 200px;
-      height: 150px;
-      border: 10px solid black;
-      background-color: #00FF00;
-      overflow: hidden;
-      cursor: pointer;
-      position: relative;
-    }
-    #ball {
-      cursor: pointer;
-      position: absolute;
-      width: 40px;
-      height: 40px;
-      left: 0px;
-      top: 0px;
-      transition: 1s all;
+    #contents {
+      padding: 5px;
+      border: 1px green solid;
     }
   </style>
 </head>
 
-<body style="height:2000px">
+<body>
 
-  Нажмите на поле для перемещения мяча.
-  <br> Мяч не должен выходить за границы поля.
+  <fieldset id="contents">
+    <legend>#contents</legend>
+    <p>
+      Как насчёт того, чтобы прочитать  <a href="http://wikipedia.org">Википедию</a> или посетить <a href="http://w3.org"><i>W3.org</i></a> и узнать о современных стандартах?
+    </p>
+  </fieldset>
 
-
-  <div id="field">
-    <img src="https://ru.js.cx/clipart/ball.svg" id="ball"> . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-  </div>
   <script>
-    let ball = document.querySelector('#ball');
-    let field = document.querySelector('#field');
+    document.addEventListener('click', function(evt) {
+      evt.preventDefault();
+      let aClick = evt.target.getAttribute('href');
 
-    field.addEventListener('click', function(event) {
-      let fieldCoords = this.getBoundingClientRect();
-      let left = event.clientX - fieldCoords.left - field.clientLeft - ball.clientWidth / 2;
-      let top = event.clientY - fieldCoords.top - field.clientTop - ball.clientHeight / 2;
-      if(left < 0) left = 0;
-      if(top < 0) top = 0;
-      if(left + ball.clientWidth > field.clientWidth) left = field.clientWidth - ball.clientWidth;
-      if(top + ball.clientHeight > field.clientHeight) top = field.clientHeight - ball.clientHeight;
-      ball.style.left = left + 'px';
-      ball.style.top = top + 'px';
-      console.log(left);
-    });
+      if(!aClick) return;
+
+      console.log(aClick)
+      alert('Молодец')
+
+    })
   </script>
 
 </body>

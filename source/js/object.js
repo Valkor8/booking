@@ -1,6 +1,6 @@
 import {getRandomInt} from './random.js';
 import {getRandomFloat} from './random.js';
-import {avatar, title, type, checkin, checkout, features, description, photo} from './util.js'
+import {avatar, title, type, checkin, checkout, features, description, photo} from './util.js';
 
 
 const author = () => {
@@ -35,12 +35,16 @@ const offer = () => {
   };
 };
 
+const getOffer = offer();
+
 const coordinates = () => {
   return {
-    x: getRandomFloat(35.65000, 35.70000, 5),
-    y: getRandomFloat(139.70000, 139.80000, 5),
+    lat: getRandomFloat(35.65000, 35.70000, 5),
+    lng: getRandomFloat(139.70000, 139.80000, 5),
   };
 };
+
+const coordinatesConst = coordinates();
 
 const obj = () => {
   return {
@@ -65,3 +69,7 @@ const getArray = new Array(10).fill(null).map(() => obj());
 // console.log(getArray);
 
 export {getArray};
+export {offer};
+export {getOffer};
+export {coordinates};
+export {coordinatesConst};

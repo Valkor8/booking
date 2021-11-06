@@ -26,8 +26,7 @@ getArray.forEach( (elementBooking) => {
   bookingElement.querySelector('.popup__text--capacity').textContent = elementBooking.offer.rooms + ' комнаты для ' + elementBooking.offer.guests + ' гостей';
   bookingElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + elementBooking.offer.checkin + ' выезд до ' + elementBooking.offer.checkout;
 
-  bookingElement.querySelector('.popup__features').innerHTML = '';
-
+  bookingElement.querySelector('.popup__features').textContent = '';
   elementBooking.offer.features.forEach((elem) => {
     const genFeatures =  bookingElement.querySelector('.popup__features');
     if(elem == 'wifi') {
@@ -65,8 +64,7 @@ getArray.forEach( (elementBooking) => {
   testDiv.style.display = 'flex';
   testDiv.style.flexWrap = 'wrap';
 
-
   cardFragment.appendChild(bookingElement);
 });
 
-testDiv.appendChild(cardFragment);
+// testDiv.appendChild(cardFragment);
