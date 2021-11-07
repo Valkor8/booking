@@ -16,7 +16,7 @@ const getRandomArrayElement = (elemetns) => {
 };
 
 const getRandomArrayLength = (arr) => {
-  return arr.slice(getRandomInt(0, arr.length - 1));
+  return arr.slice(getRandomInt(0, arr.length));
 };
 
 const offer = () => {

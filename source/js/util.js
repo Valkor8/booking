@@ -9,7 +9,7 @@ const avatar = [
   './img/avatars/user08.png',
 ];
 
-const title = 'Заголовок';
+const title = 'Объявление';
 
 const type = [
   'palace',

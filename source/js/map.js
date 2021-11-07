@@ -1,7 +1,4 @@
-import { offer } from './object.js';
-import { coordinates } from './object.js';
 import { getArray } from './object.js';
-import { coordinatesConst } from './object.js';
 
 const adForm = document.querySelector('.ad-form');
 const mapFilters = document.querySelector('.map__filters');
@@ -49,7 +46,7 @@ const mainMarkerIcon = L.icon({
 const mainMarker = L.marker(
   {
     lat: 35.67674,
-    lng: 139.74970,
+    lng: 139.74971,
   },
   {
     draggable: true,
@@ -68,11 +65,7 @@ let mainMarkerAddress = mainMarker.on('moveend', (evt) => {
   }).join(', ');
 });
 
-// const offerCoordinates = () => {
-//   return [offer(), coordinates(), ]
-// }
-
-const getArrayAnnouncement = getArray.map((elem) => {
+const points = getArray.map((elem) => {
   const result = {
     lat: elem.location.lat,
     lng: elem.location.lng,
@@ -87,24 +80,75 @@ const getArrayAnnouncement = getArray.map((elem) => {
     features: elem.offer.features,
     description: elem.offer.description,
     photo: elem.offer.photo,
+    avatar: elem.author.avatar,
   }
   return result;
 });
 
-console.log(getArrayAnnouncement);
+const typeHome = (home) => {
+  if(home == 'palace') {
+    return 'Дворец'
+  } if(home == 'house') {
+    return 'Дом'
+  } if(home == 'bungalow') {
+    return 'Бунгало'
+  } if(home == 'flat') {
+    return 'Квартира'
+  }
+};
 
-// const getAnnouncement = () => {
-//   let arrayAdvt = [];
-//   for(let i = 0; i < 10; i++) {
-//     arrayAdvt[i] = coordinates();
-//   }
-//   return arrayAdvt;
-// }
+const createCustomPopup = (elem) => {
+  const baloonTemplate = document.querySelector('#card').content.querySelector('.popup');
+  const popupElement = baloonTemplate.cloneNode(true);
 
-// const announcement = getAnnouncement();
+  popupElement.querySelector('.popup__title').textContent = elem.title;
+  popupElement.querySelector('.popup__text--address').textContent = elem.address;
+  popupElement.querySelector('.popup__text--price').textContent = elem.price + ' Р/ночь';
+  popupElement.querySelector('.popup__type').textContent = typeHome(elem.type);
+  popupElement.querySelector('.popup__text--capacity').textContent = elem.rooms + ' комнаты для ' + elem.guests + ' гостей';
+  popupElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + elem.checkin + ' выезд до ' + elem.checkout;
+  popupElement.querySelector('.popup__features').textContent = '';
+  elem.features.forEach((elem) => {
+    const genFeatures =  popupElement.querySelector('.popup__features');
+    if(elem == 'wifi') {
+      genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--wifi"></li>');
+    } if(elem == 'dishwasher') {
+      genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--dishwasher"></li>');
+    } if(elem == 'parking') {
+      genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--parking"></li>');
+    } if(elem == 'whaser') {
+      genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--washer"></li>');
+    } if(elem == 'elevator') {
+      genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--elevator"></li>');
+    } if(elem == 'conditioner') {
+      genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--conditioner"></li>');
+    } if(!elem) {
+      genFeatures.style.display = 'none';
+    }
+  });
+  popupElement.querySelector('.popup__description').textContent = elem.description;
+  popupElement.querySelector('.popup__photos').innerHTML = ''
+  elem.photo.forEach((elem) => {
+    if(elem) {
+      popupElement.querySelector('.popup__photos').insertAdjacentHTML('afterbegin', '<img src="" class="popup__photo" width="45" height="40" alt="Фотография жилья">');
+      popupElement.querySelector('.popup__photo').setAttribute('src', elem);
+    } else {
+      popupElement.querySelector('.popup__photos').style.display = 'none';
+    }
+  });
 
+  if(!elem.avatar) {
+    popupElement.querySelector('.popup__avatar').style.display = 'none';
+  } else {
+    popupElement.querySelector('.popup__avatar').setAttribute('src', elem.avatar);
+  }
 
-getArrayAnnouncement.forEach(({lat, lng, title, address, price, type, rooms, guests, checkin, checkout, features, description, photo}) => {
+  return popupElement;
+}
+
+points.forEach((point) => {
+  const {lat, lng} = point;
+
   const markerIcon = L.icon({
     iconUrl: '../leaflet/images/marker-icon.png',
     iconSize: [25, 41],
@@ -123,6 +167,10 @@ getArrayAnnouncement.forEach(({lat, lng, title, address, price, type, rooms, gue
 
   marker
     .addTo(mapCanvas)
-    .bindPopup([title, address, price, type, rooms, guests, checkin, checkout, features, description, photo])
-
+    .bindPopup(
+      createCustomPopup(point),
+      {
+        keepInView: true,
+      },
+    );
 });

@@ -67,4 +67,10 @@ getArray.forEach( (elementBooking) => {
   cardFragment.appendChild(bookingElement);
 });
 
+// console.log(getRandomArray.offer.price)
+
 // testDiv.appendChild(cardFragment);
+
+
+export {templateCard};
+export {typeHome};
