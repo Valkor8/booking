@@ -77,8 +77,65 @@ timeout.addEventListener('change', () => {
   }
 });
 
-const roomNumber = adForm.querySelector('#room-number');
+const roomNumber = adForm.querySelector('#room_number');
+const roomNumberOption = roomNumber.querySelectorAll('option');
 const capacity = adForm.querySelector('#capacity');
+const capacityOption = capacity.querySelectorAll('option');
 
-// Закончил тут. Необходимо продолжить с пункта 3.6 ТЗ
-// timeout.addEventListener('change', () => {
+console.log(roomNumberOption[0]);
+
+capacityOption.forEach( (elem) => {
+  if(elem.value == 0 || elem.value == 2 || elem.value == 3) {
+    elem.style.display = 'none';
+    elem.removeAttribute('selected');
+  } else {
+    elem.removeAttribute('selected');
+    elem.style.display = 'block';
+    elem.setAttribute('selected', '');
+  }
+});
+
+roomNumber.addEventListener('click', (evt) => {
+  if(evt.target.value == 1) {
+    capacityOption.forEach( (elem) => {
+      if(elem.value == 0 || elem.value == 2 || elem.value == 3) {
+        elem.style.display = 'none';
+        elem.removeAttribute('selected');
+      } else {
+        elem.removeAttribute('selected');
+        elem.style.display = 'block';
+        elem.setAttribute('selected', '');
+      }
+    });
+  } else if (evt.target.value == 2) {
+    capacityOption.forEach( (elem) => {
+      if(elem.value == 0 || elem.value == 3) {
+        elem.style.display = 'none';
+        elem.removeAttribute('selected');
+      } else {
+        elem.style.display = 'block';
+        elem.setAttribute('selected', '');
+      }
+    });
+  } else if (evt.target.value == 3) {
+    capacityOption.forEach( (elem) => {
+      if(elem.value == 0) {
+        elem.style.display = 'none';
+        elem.removeAttribute('selected');
+      } else {
+        elem.style.display = 'block';
+        elem.setAttribute('selected', '');
+      }
+    });
+  } else if (evt.target.value == 100) {
+    capacityOption.forEach( (elem) => {
+      if(elem.value == 1 || elem.value == 2 || elem.value == 3) {
+        elem.style.display = 'none';
+        elem.removeAttribute('selected');
+      } else {
+        elem.style.display = 'block';
+        elem.setAttribute('selected', '');
+      }
+    });
+  }
+});
