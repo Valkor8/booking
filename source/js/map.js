@@ -54,16 +54,30 @@ const mainMarker = L.marker(
   },
 );
 
-address.value = Object.values(Object.values(mainMarker)[1]).join(', ');
+const getAddressValue = () => {
+  address.value = Object.values(Object.values(mainMarker)[1]).join(', ');
+}
+
+getAddressValue();
+
+export {getAddressValue};
 
 mainMarker.addTo(mapCanvas);
+// L.marker([35.67674, 139.74971]).addTo(mapCanvas);
 
-let mainMarkerAddress = mainMarker.on('moveend', (evt) => {
-  address.value = Object.values(evt.target.getLatLng()).map((item) => {
-    let result = item.toFixed(5);
-    return result;
-  }).join(', ');
-});
+let mainMarkerAddress = () => {
+  mainMarker.addEventListener('moveend', (evt) => {
+    address.value = Object.values(evt.target.getLatLng()).map((item) => {
+      let result = item.toFixed(5);
+      return result;
+    }).join(', ');
+  });
+}
+
+export {mainMarker};
+export {mapCanvas};
+
+mainMarkerAddress();
 
 const points = getArray.map((elem) => {
   const result = {
@@ -174,3 +188,6 @@ points.forEach((point) => {
       },
     );
 });
+
+
+export {adForm};
