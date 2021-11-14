@@ -54,6 +54,7 @@ const mainMarker = L.marker(
   },
 );
 
+
 const getAddressValue = () => {
   address.value = Object.values(Object.values(mainMarker)[1]).join(', ');
 }
@@ -63,7 +64,6 @@ getAddressValue();
 export {getAddressValue};
 
 mainMarker.addTo(mapCanvas);
-// L.marker([35.67674, 139.74971]).addTo(mapCanvas);
 
 let mainMarkerAddress = () => {
   mainMarker.addEventListener('moveend', (evt) => {
