@@ -1,22 +1,22 @@
-import { adForm } from './map.js';
-import { getAddressValue } from './map.js';
-import { mainMarker } from './map.js';
+'use stirct';
+
+import { adForm, getAddressValue, mainMarker } from './map.js';
 
 const main = document.querySelector('main');
 const errorTemplate = document.querySelector('#error').content.querySelector('.error');
 const errorDiv = errorTemplate.cloneNode(true);
 const errorMessage = errorDiv.querySelector('.error__message');
-const messageTemplate = document.querySelector('#success').content.querySelector('.success');
+
 const adFormReset = document.querySelector('.ad-form__reset');
 
-const upLoadData = function (message) {
+const upLoadData = function () {
   const onError = (err) => {
     console.log(err);
   };
 
-  const URL = 'https://22.javascript.pages.academy/keksobookin';
+  const URL = 'https://22.javascript.pages.academy/keksobooking';
 
-  Window.upload = (data, onSuccess) => {
+  document.upload = (data, onSuccess) => {
     const xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
@@ -47,7 +47,6 @@ const upLoadData = function (message) {
         onError(err);
         errorMessage.textContent = err;
         main.appendChild(errorDiv);
-
       }
     });
 
@@ -72,35 +71,27 @@ const upLoadData = function (message) {
 upLoadData();
 
 const getMessage = () => {
+  const messageTemplate = document.querySelector('#success').content.querySelector('.success');
   const messageSuccess =  messageTemplate.cloneNode(true);
   main.appendChild(messageSuccess);
-  const closeMessage = () => {
-    main.removeChild(messageSuccess);
-  }
-  if (messageSuccess) {
-    document.addEventListener('click', () => {
-      closeMessage();
 
-    });
-    document.addEventListener('keydown', (evt) => {
-      if(evt.key === ('Escape' || 'Esc')) {
-        closeMessage();
-      }
-    });
-  } else {
-    document.removeEventListener('click', () => {
-      closeMessage();
-    });
-    document.removeEventListener('keydown', (evt) => {
-      if(evt.key === ('Escape' || 'Esc')) {
-        closeMessage();
-      }
-    });
+  const closeMessage = () => {
+    const messageDiv = document.querySelector ('.success');
+    if (messageDiv) {
+      main.removeChild(messageSuccess);
+    }
   }
-};
+
+  document.addEventListener('click', closeMessage);
+  document.addEventListener('keydown', (evt) => {
+    if(evt.key === ('Escape' || 'Esc')) {
+      closeMessage();
+    }
+  });
+}
 
 adForm.addEventListener('submit', function (evt) {
-  Window.upload(new FormData(adForm), () => {
+  document.upload(new FormData(adForm), () => {
     adForm.reset();
     mainMarker.setLatLng([35.67674, 139.74971]);
     getAddressValue();
@@ -117,27 +108,18 @@ adFormReset.addEventListener('click', (evt) => {
   getAddressValue();
 });
 
+
 const errorDivClose = () => {
-  main.removeChild(errorDiv);
+  const errorDivCloseMessage = document.querySelector('.error');
+  if (errorDivCloseMessage) {
+    main.removeChild(errorDiv);
+  }
 }
 
-if(errorDiv) {
-  document.addEventListener('click', () => {
+document.addEventListener('click', errorDivClose);
+document.addEventListener('keydown', (evt) => {
+  if(evt.key === ('Escape' || 'Esc')) {
     errorDivClose();
-  });
+  }
+});
 
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === ('Escape' || 'Esc')) {
-      errorDivClose();
-    }
-  });
-} else {
-  document.removeEventListener('click', () => {
-    errorDivClose();
-  });
-  document.removeEventListener('keydown', (evt) => {
-    if(evt.key === ('Escape' || 'Esc')) {
-      errorDivClose();
-    }
-  });
-}

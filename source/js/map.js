@@ -1,4 +1,5 @@
 import { getArray } from './object.js';
+import './load.js';
 
 const adForm = document.querySelector('.ad-form');
 const mapFilters = document.querySelector('.map__filters');
@@ -54,14 +55,11 @@ const mainMarker = L.marker(
   },
 );
 
-
 const getAddressValue = () => {
   address.value = Object.values(Object.values(mainMarker)[1]).join(', ');
 }
 
 getAddressValue();
-
-export {getAddressValue};
 
 mainMarker.addTo(mapCanvas);
 
@@ -73,9 +71,6 @@ let mainMarkerAddress = () => {
     }).join(', ');
   });
 }
-
-export {mainMarker};
-export {mapCanvas};
 
 mainMarkerAddress();
 
@@ -98,6 +93,7 @@ const points = getArray.map((elem) => {
   }
   return result;
 });
+
 
 const typeHome = (home) => {
   if(home == 'palace') {
@@ -190,4 +186,13 @@ points.forEach((point) => {
 });
 
 
-export {adForm};
+// Window.load( (announcement) => {
+//   const fragment = document.createDocumentFragment();
+
+//   for (let i = 0; i < 11; i++) {
+//     fragment.appendChild(createCustomPopup(announcement[i]));
+//   }
+//   document.querySelector('.test-div').appendChild(fragment);
+// });
+
+export { mapCanvas, getAddressValue, mainMarker, adForm, createCustomPopup };

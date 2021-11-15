@@ -1,4 +1,5 @@
 import { getArray } from './object.js';
+import './load.js';
 
 const templateCard = document.querySelector('#card').content;
 const testDiv = document.querySelector('.test-div');

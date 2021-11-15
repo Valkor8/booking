@@ -2,7 +2,6 @@ import {getRandomInt} from './random.js';
 import {getRandomFloat} from './random.js';
 import {avatar, title, type, checkin, checkout, features, description, photo} from './util.js';
 
-
 const author = () => {
   const randomAvatar = avatar.splice(getRandomInt(0, avatar.length - 1), 1).join('');
 
@@ -68,8 +67,5 @@ const getArray = new Array(10).fill(null).map(() => obj());
 
 // console.log(getArray);
 
-export {getArray};
-export {offer};
-export {getOffer};
-export {coordinates};
-export {coordinatesConst};
+export {getArray, offer, getOffer, coordinates, coordinatesConst};
+
