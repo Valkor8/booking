@@ -1,5 +1,7 @@
-import { getArray } from './object.js';
 import './load.js';
+// import { loadData } from './load.js';
+import { photo } from './util.js';
+
 
 const adForm = document.querySelector('.ad-form');
 const mapFilters = document.querySelector('.map__filters');
@@ -30,7 +32,7 @@ const mapCanvas = L.map('map-canvas')
   .setView({
     lat: 35.67674,
     lng: 139.74970,
-  }, 13);
+  }, 10);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   {
@@ -74,27 +76,6 @@ let mainMarkerAddress = () => {
 
 mainMarkerAddress();
 
-const points = getArray.map((elem) => {
-  const result = {
-    lat: elem.location.lat,
-    lng: elem.location.lng,
-    title: elem.offer.title,
-    address: elem.offer.address,
-    price: elem.offer.price,
-    type: elem.offer.type,
-    rooms: elem.offer.rooms,
-    guests: elem.offer.guests,
-    checkin: elem.offer.checkin,
-    checkout: elem.offer.checkout,
-    features: elem.offer.features,
-    description: elem.offer.description,
-    photo: elem.offer.photo,
-    avatar: elem.author.avatar,
-  }
-  return result;
-});
-
-
 const typeHome = (home) => {
   if(home == 'palace') {
     return 'Дворец'
@@ -107,92 +88,206 @@ const typeHome = (home) => {
   }
 };
 
-const createCustomPopup = (elem) => {
-  const baloonTemplate = document.querySelector('#card').content.querySelector('.popup');
-  const popupElement = baloonTemplate.cloneNode(true);
-
-  popupElement.querySelector('.popup__title').textContent = elem.title;
-  popupElement.querySelector('.popup__text--address').textContent = elem.address;
-  popupElement.querySelector('.popup__text--price').textContent = elem.price + ' Р/ночь';
-  popupElement.querySelector('.popup__type').textContent = typeHome(elem.type);
-  popupElement.querySelector('.popup__text--capacity').textContent = elem.rooms + ' комнаты для ' + elem.guests + ' гостей';
-  popupElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + elem.checkin + ' выезд до ' + elem.checkout;
-  popupElement.querySelector('.popup__features').textContent = '';
-  elem.features.forEach((elem) => {
-    const genFeatures =  popupElement.querySelector('.popup__features');
-    if(elem == 'wifi') {
-      genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--wifi"></li>');
-    } if(elem == 'dishwasher') {
-      genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--dishwasher"></li>');
-    } if(elem == 'parking') {
-      genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--parking"></li>');
-    } if(elem == 'whaser') {
-      genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--washer"></li>');
-    } if(elem == 'elevator') {
-      genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--elevator"></li>');
-    } if(elem == 'conditioner') {
-      genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--conditioner"></li>');
-    } if(!elem) {
-      genFeatures.style.display = 'none';
+Window.load((announcement) => {
+  const points = announcement.map((elem) => {
+    const point = {
+      lat: elem.location.lat,
+      lng: elem.location.lng,
+      title: elem.offer.title,
+      address: elem.offer.address,
+      price: elem.offer.price,
+      type: elem.offer.type,
+      rooms: elem.offer.rooms,
+      guests: elem.offer.guests,
+      checkin: elem.offer.checkin,
+      checkout: elem.offer.checkout,
+      features: elem.offer.features,
+      description: elem.offer.description,
+      photos: elem.offer.photos,
+      avatar: elem.author.avatar,
     }
+    return point;
   });
-  popupElement.querySelector('.popup__description').textContent = elem.description;
-  popupElement.querySelector('.popup__photos').innerHTML = ''
-  elem.photo.forEach((elem) => {
-    if(elem) {
-      popupElement.querySelector('.popup__photos').insertAdjacentHTML('afterbegin', '<img src="" class="popup__photo" width="45" height="40" alt="Фотография жилья">');
-      popupElement.querySelector('.popup__photo').setAttribute('src', elem);
+
+  const createCustomPopup = (points) => {
+    const baloonTemplate = document.querySelector('#card').content.querySelector('.popup');
+    const popupElement = baloonTemplate.cloneNode(true);
+
+    popupElement.querySelector('.popup__title').textContent = points.title;
+    popupElement.querySelector('.popup__text--address').textContent = points.address;
+    popupElement.querySelector('.popup__text--price').textContent = points.price + ' Р/ночь';
+    popupElement.querySelector('.popup__type').textContent = typeHome(points.type);
+    popupElement.querySelector('.popup__text--capacity').textContent = points.rooms + ' комн. для ' + points.guests + ' гостей';
+    popupElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + points.checkin + ' выезд до ' + points.checkout;
+    popupElement.querySelector('.popup__features').textContent = '';
+    points.features.forEach((elem) => {
+      const genFeatures =  popupElement.querySelector('.popup__features');
+      if(elem == 'wifi') {
+        genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--wifi"></li>');
+      } if(elem == 'dishwasher') {
+        genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--dishwasher"></li>');
+      } if(elem == 'parking') {
+        genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--parking"></li>');
+      } if(elem == 'whaser') {
+        genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--washer"></li>');
+      } if(elem == 'elevator') {
+        genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--elevator"></li>');
+      } if(elem == 'conditioner') {
+        genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--conditioner"></li>');
+      } if(!elem) {
+        genFeatures.style.display = 'none';
+      }
+    });
+    popupElement.querySelector('.popup__description').textContent = points.description;
+    popupElement.querySelector('.popup__photos').innerHTML = ''
+    points.photos.forEach((elem) => {
+      if(elem) {
+        popupElement.querySelector('.popup__photos').insertAdjacentHTML('afterbegin', '<img src="" class="popup__photo" width="45" height="40" alt="Фотография жилья">');
+        popupElement.querySelector('.popup__photo').setAttribute('src', elem);
+      } else {
+        popupElement.querySelector('.popup__photos').style.display = 'none';
+      }
+    });
+
+    if(!points.avatar) {
+      popupElement.querySelector('.popup__avatar').style.display = 'none';
     } else {
-      popupElement.querySelector('.popup__photos').style.display = 'none';
+      popupElement.querySelector('.popup__avatar').setAttribute('src', points.avatar);
     }
-  });
-
-  if(!elem.avatar) {
-    popupElement.querySelector('.popup__avatar').style.display = 'none';
-  } else {
-    popupElement.querySelector('.popup__avatar').setAttribute('src', elem.avatar);
+    return popupElement;
   }
 
-  return popupElement;
-}
+  points.forEach((point) => {
+    const {lat, lng} = point;
+    const markerIcon = L.icon({
+      iconUrl: '../leaflet/images/marker-icon.png',
+      iconSize: [25, 41],
+      iconAnchor: [12.5, 41],
+    });
 
-points.forEach((point) => {
-  const {lat, lng} = point;
-
-  const markerIcon = L.icon({
-    iconUrl: '../leaflet/images/marker-icon.png',
-    iconSize: [25, 41],
-    iconAnchor: [12.5, 41],
-  });
-
-  const marker = L.marker(
-    {
-      lat,
-      lng,
-    },
-    {
-      icon: markerIcon,
-    },
-  );
-
-  marker
-    .addTo(mapCanvas)
-    .bindPopup(
-      createCustomPopup(point),
+    const marker = L.marker(
       {
-        keepInView: true,
+        lat,
+        lng,
+      },
+      {
+        icon: markerIcon,
       },
     );
+
+    marker
+      .addTo(mapCanvas)
+      .bindPopup(
+        createCustomPopup(point),
+        {
+          keepInView: true,
+        },
+      )
+  });
+
 });
 
 
-// Window.load( (announcement) => {
-//   const fragment = document.createDocumentFragment();
-
-//   for (let i = 0; i < 11; i++) {
-//     fragment.appendChild(createCustomPopup(announcement[i]));
+// const points = getArray.map((elem) => {
+//   const result = {
+//     lat: elem.location.lat,
+//     lng: elem.location.lng,
+//     title: elem.offer.title,
+//     address: elem.offer.address,
+//     price: elem.offer.price,
+//     type: elem.offer.type,
+//     rooms: elem.offer.rooms,
+//     guests: elem.offer.guests,
+//     checkin: elem.offer.checkin,
+//     checkout: elem.offer.checkout,
+//     features: elem.offer.features,
+//     description: elem.offer.description,
+//     photo: elem.offer.photo,
+//     avatar: elem.author.avatar,
 //   }
-//   document.querySelector('.test-div').appendChild(fragment);
+
+//   return result
 // });
 
-export { mapCanvas, getAddressValue, mainMarker, adForm, createCustomPopup };
+// console.log(points)
+
+// const createCustomPopup = (elem) => {
+//   const baloonTemplate = document.querySelector('#card').content.querySelector('.popup');
+//   const popupElement = baloonTemplate.cloneNode(true);
+
+//   popupElement.querySelector('.popup__title').textContent = elem.title;
+//   popupElement.querySelector('.popup__text--address').textContent = elem.address;
+//   popupElement.querySelector('.popup__text--price').textContent = elem.price + ' Р/ночь';
+//   popupElement.querySelector('.popup__type').textContent = typeHome(elem.type);
+//   popupElement.querySelector('.popup__text--capacity').textContent = elem.rooms + ' комнаты для ' + elem.guests + ' гостей';
+//   popupElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + elem.checkin + ' выезд до ' + elem.checkout;
+//   popupElement.querySelector('.popup__features').textContent = '';
+//   elem.features.forEach((elem) => {
+//     const genFeatures =  popupElement.querySelector('.popup__features');
+//     if(elem == 'wifi') {
+//       genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--wifi"></li>');
+//     } if(elem == 'dishwasher') {
+//       genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--dishwasher"></li>');
+//     } if(elem == 'parking') {
+//       genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--parking"></li>');
+//     } if(elem == 'whaser') {
+//       genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--washer"></li>');
+//     } if(elem == 'elevator') {
+//       genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--elevator"></li>');
+//     } if(elem == 'conditioner') {
+//       genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--conditioner"></li>');
+//     } if(!elem) {
+//       genFeatures.style.display = 'none';
+//     }
+//   });
+//   popupElement.querySelector('.popup__description').textContent = elem.description;
+//   popupElement.querySelector('.popup__photos').innerHTML = ''
+//   elem.photo.forEach((elem) => {
+//     if(elem) {
+//       popupElement.querySelector('.popup__photos').insertAdjacentHTML('afterbegin', '<img src="" class="popup__photo" width="45" height="40" alt="Фотография жилья">');
+//       popupElement.querySelector('.popup__photo').setAttribute('src', elem);
+//     } else {
+//       popupElement.querySelector('.popup__photos').style.display = 'none';
+//     }
+//   });
+
+//   if(!elem.avatar) {
+//     popupElement.querySelector('.popup__avatar').style.display = 'none';
+//   } else {
+//     popupElement.querySelector('.popup__avatar').setAttribute('src', elem.avatar);
+//   }
+
+
+//   return popupElement;
+// }
+
+// points.forEach((point) => {
+//   const {lat, lng} = point;
+
+//   const markerIcon = L.icon({
+//     iconUrl: '../leaflet/images/marker-icon.png',
+//     iconSize: [25, 41],
+//     iconAnchor: [12.5, 41],
+//   });
+
+//   const marker = L.marker(
+//     {
+//       lat,
+//       lng,
+//     },
+//     {
+//       icon: markerIcon,
+//     },
+//   );
+
+//   marker
+//     .addTo(mapCanvas)
+//     .bindPopup(
+//       createCustomPopup(point),
+//       {
+//         keepInView: true,
+//       },
+//     )
+// });
+
+export { mapCanvas, getAddressValue, mainMarker, adForm };

@@ -1,7 +1,6 @@
 'use stirct';
-import { createCustomPopup } from './map.js';
 
-const loadData =  () => {
+const loadData = () => {
   const URL_LOAD = 'https://22.javascript.pages.academy/keksobooking/data';
 
   Window.load = function (onSuccess, onError) {
@@ -12,7 +11,7 @@ const loadData =  () => {
 
     xhr.addEventListener('load', () => {
       if(xhr.status === 200) {
-        onSuccess(xhr.status)
+        onSuccess(xhr.response)
       } else {
         onError('Произошла ошибка')
       }
@@ -20,11 +19,8 @@ const loadData =  () => {
 
     xhr.send();
   }
-};
+}
 
-console.log(loadData());
+loadData();
 
-console.log(Window.load());
-
-
-// export {loadData};
+// Написать код для обработки ошибок загрузки данных

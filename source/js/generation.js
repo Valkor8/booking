@@ -73,5 +73,4 @@ getArray.forEach( (elementBooking) => {
 // testDiv.appendChild(cardFragment);
 
 
-export {templateCard};
-export {typeHome};
+export {templateCard, testDiv, typeHome};
