@@ -10,13 +10,10 @@ const errorMessage = errorDiv.querySelector('.error__message');
 const adFormReset = document.querySelector('.ad-form__reset');
 
 const upLoadData = function () {
-  const onError = (err) => {
-    console.log(err);
-  };
 
   const URL = 'https://22.javascript.pages.academy/keksobooking';
 
-  document.upload = (data, onSuccess) => {
+  document.upload = (data, onSuccess, onError) => {
     const xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
@@ -44,24 +41,20 @@ const upLoadData = function () {
       }
 
       if(err) {
-        onError(err);
         errorMessage.textContent = err;
         main.appendChild(errorDiv);
       }
     });
 
     xhr.addEventListener('error', () => {
-      errorMessage.textContent = 'Произошла ошибка соединения';
-      main.appendChild(errorDiv);
       onError('Произошла ошибка соединения');
     });
 
     xhr.addEventListener('timeout', () => {
-      errorMessage.textContent = 'Истекло время ожидания';
-      main.appendChild(errorDiv);
+      onError('Истекло время ожидания');
     });
 
-    xhr.timeout = 1000;
+    xhr.timeout = 10000;
 
     xhr.open('POST', URL);
     xhr.send(data);
@@ -91,13 +84,17 @@ const getMessage = () => {
 }
 
 adForm.addEventListener('submit', function (evt) {
-  document.upload(new FormData(adForm), () => {
-    adForm.reset();
-    mainMarker.setLatLng([35.67674, 139.74971]);
-    getAddressValue();
-    getMessage();
-  });
-
+  document.upload(new FormData(adForm),
+    () => {
+      adForm.reset();
+      mainMarker.setLatLng([35.67674, 139.74971]);
+      getAddressValue();
+      getMessage();
+    },
+    (message) => {
+      errorMessage.textContent = message;
+      main.appendChild(errorDiv);
+    });
   evt.preventDefault();
 });
 
@@ -107,7 +104,6 @@ adFormReset.addEventListener('click', (evt) => {
   mainMarker.setLatLng([35.67674, 139.74971]);
   getAddressValue();
 });
-
 
 const errorDivClose = () => {
   const errorDivCloseMessage = document.querySelector('.error');
@@ -122,4 +118,3 @@ document.addEventListener('keydown', (evt) => {
     errorDivClose();
   }
 });
-

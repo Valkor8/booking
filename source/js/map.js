@@ -1,7 +1,6 @@
 import './load.js';
-// import { loadData } from './load.js';
-import { photo } from './util.js';
-
+import { loadData } from './load.js';
+loadData();
 
 const adForm = document.querySelector('.ad-form');
 const mapFilters = document.querySelector('.map__filters');
@@ -157,7 +156,8 @@ Window.load((announcement) => {
     return popupElement;
   }
 
-  points.forEach((point) => {
+  for (let i = 0; i < 10; i++) {
+    const point = points[i];
     const {lat, lng} = point;
     const markerIcon = L.icon({
       iconUrl: '../leaflet/images/marker-icon.png',
@@ -183,111 +183,7 @@ Window.load((announcement) => {
           keepInView: true,
         },
       )
-  });
-
+  }
 });
-
-
-// const points = getArray.map((elem) => {
-//   const result = {
-//     lat: elem.location.lat,
-//     lng: elem.location.lng,
-//     title: elem.offer.title,
-//     address: elem.offer.address,
-//     price: elem.offer.price,
-//     type: elem.offer.type,
-//     rooms: elem.offer.rooms,
-//     guests: elem.offer.guests,
-//     checkin: elem.offer.checkin,
-//     checkout: elem.offer.checkout,
-//     features: elem.offer.features,
-//     description: elem.offer.description,
-//     photo: elem.offer.photo,
-//     avatar: elem.author.avatar,
-//   }
-
-//   return result
-// });
-
-// console.log(points)
-
-// const createCustomPopup = (elem) => {
-//   const baloonTemplate = document.querySelector('#card').content.querySelector('.popup');
-//   const popupElement = baloonTemplate.cloneNode(true);
-
-//   popupElement.querySelector('.popup__title').textContent = elem.title;
-//   popupElement.querySelector('.popup__text--address').textContent = elem.address;
-//   popupElement.querySelector('.popup__text--price').textContent = elem.price + ' Р/ночь';
-//   popupElement.querySelector('.popup__type').textContent = typeHome(elem.type);
-//   popupElement.querySelector('.popup__text--capacity').textContent = elem.rooms + ' комнаты для ' + elem.guests + ' гостей';
-//   popupElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + elem.checkin + ' выезд до ' + elem.checkout;
-//   popupElement.querySelector('.popup__features').textContent = '';
-//   elem.features.forEach((elem) => {
-//     const genFeatures =  popupElement.querySelector('.popup__features');
-//     if(elem == 'wifi') {
-//       genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--wifi"></li>');
-//     } if(elem == 'dishwasher') {
-//       genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--dishwasher"></li>');
-//     } if(elem == 'parking') {
-//       genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--parking"></li>');
-//     } if(elem == 'whaser') {
-//       genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--washer"></li>');
-//     } if(elem == 'elevator') {
-//       genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--elevator"></li>');
-//     } if(elem == 'conditioner') {
-//       genFeatures.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--conditioner"></li>');
-//     } if(!elem) {
-//       genFeatures.style.display = 'none';
-//     }
-//   });
-//   popupElement.querySelector('.popup__description').textContent = elem.description;
-//   popupElement.querySelector('.popup__photos').innerHTML = ''
-//   elem.photo.forEach((elem) => {
-//     if(elem) {
-//       popupElement.querySelector('.popup__photos').insertAdjacentHTML('afterbegin', '<img src="" class="popup__photo" width="45" height="40" alt="Фотография жилья">');
-//       popupElement.querySelector('.popup__photo').setAttribute('src', elem);
-//     } else {
-//       popupElement.querySelector('.popup__photos').style.display = 'none';
-//     }
-//   });
-
-//   if(!elem.avatar) {
-//     popupElement.querySelector('.popup__avatar').style.display = 'none';
-//   } else {
-//     popupElement.querySelector('.popup__avatar').setAttribute('src', elem.avatar);
-//   }
-
-
-//   return popupElement;
-// }
-
-// points.forEach((point) => {
-//   const {lat, lng} = point;
-
-//   const markerIcon = L.icon({
-//     iconUrl: '../leaflet/images/marker-icon.png',
-//     iconSize: [25, 41],
-//     iconAnchor: [12.5, 41],
-//   });
-
-//   const marker = L.marker(
-//     {
-//       lat,
-//       lng,
-//     },
-//     {
-//       icon: markerIcon,
-//     },
-//   );
-
-//   marker
-//     .addTo(mapCanvas)
-//     .bindPopup(
-//       createCustomPopup(point),
-//       {
-//         keepInView: true,
-//       },
-//     )
-// });
 
 export { mapCanvas, getAddressValue, mainMarker, adForm };
