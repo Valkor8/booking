@@ -15,35 +15,56 @@ const errorLoad = (message) => {
   map.appendChild(newDiv);
 }
 
-const loadData = () => {
+const loadData = (onSuccess) => {
   const URL_LOAD = 'https://22.javascript.pages.academy/keksobooking/data';
 
-  Window.load = function (onSuccess) {
-    const xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
-
-    xhr.open('GET', URL_LOAD);
-
-    xhr.addEventListener('load', () => {
-      if(xhr.status === 200) {
-        onSuccess(xhr.response)
-      } else {
+  fetch(URL_LOAD)
+    .then( (responce) => {
+      if (responce.ok){
+        return responce.json();
+      } if (responce.status === 404) {
+        errorLoad('Произошла ошибка загрузки объявлений.');
+      } if (responce.status === 500) {
+        errorLoad('Истекло время ожидания сервера');
+      }
+      else {
         errorLoad('Произошла ошибка загрузки объявлений. Попробуйте обновить страницу или вернитесь позже!');
       }
+    })
+    .then( (data) => {
+      onSuccess(data);
     });
+};
 
-    xhr.addEventListener('error', () => {
-      errorLoad('Произошла ошибка загрузки объявлений. Попробуйте обновить страницу или вернитесь позже!');
-    })
+// const loadData = () => {
+//   const URL_LOAD = 'https://22.javascript.pages.academy/keksobooking/data';
 
-    xhr.addEventListener('timeout', () => {
-      errorLoad('Истекло время ожидания сервера');
-    })
+//   Window.load = function (onSuccess) {
+//     const xhr = new XMLHttpRequest();
+//     xhr.responseType = 'json';
 
-    xhr.timeout = 10000;
-    xhr.send();
-  }
-}
+//     xhr.open('GET', URL_LOAD);
 
-loadData();
+//     xhr.addEventListener('load', () => {
+//       if(xhr.status === 200) {
+//         onSuccess(xhr.response)
+//       } else {
+//         errorLoad('Произошла ошибка загрузки объявлений. Попробуйте обновить страницу или вернитесь позже!');
+//       }
+//     });
+
+//     xhr.addEventListener('error', () => {
+//       errorLoad('Произошла ошибка загрузки объявлений. Попробуйте обновить страницу или вернитесь позже!');
+//     })
+
+//     xhr.addEventListener('timeout', () => {
+//       errorLoad('Истекло время ожидания сервера');
+//     })
+
+//     xhr.timeout = 10000;
+//     xhr.send();
+//   }
+// }
+
+// loadData();
 export{loadData};
