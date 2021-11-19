@@ -6,3 +6,4 @@ import './map.js';
 import './validation.js';
 import './upload.js';
 import './load.js';
+import './map-filter.js';

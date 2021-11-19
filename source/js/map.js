@@ -114,6 +114,8 @@ loadData( (data) => {
     const baloonTemplate = document.querySelector('#card').content.querySelector('.popup');
     const popupElement = baloonTemplate.cloneNode(true);
 
+
+
     popupElement.querySelector('.popup__title').textContent = point.title;
     popupElement.querySelector('.popup__text--address').textContent = point.address;
     popupElement.querySelector('.popup__text--price').textContent = point.price + ' Р/ночь';
@@ -187,6 +189,7 @@ loadData( (data) => {
       )
   }
 });
+
 
 // Загрузка данных с сервера с использованием XHR
 
