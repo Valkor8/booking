@@ -1,4 +1,3 @@
-import { loadData } from './load.js';
 
 const mapFilterContainer = document.querySelector('.map__filters-container');
 const housingType = mapFilterContainer.querySelector('#housing-type');
@@ -8,80 +7,55 @@ const housingGuests = mapFilterContainer.querySelector('#housing-guests');
 const housingFeatures = mapFilterContainer.querySelector('#housing-features');
 const housingFeaturesInput = housingFeatures.querySelectorAll('input');
 
-// const filterHousing = (point) => {
-//   housingType.addEventListener('change', () => {
-//     if (housingType.value === 'palace') {
-//       alert('Дворец')
-//     }
-//   })
-// }
-
-// filterHousing()
-
-console.log(housingFeaturesInput)
-
-housingFeatures.addEventListener('change', () => {
-
-  loadData( (points) => {
-    points.forEach( (elem) => {
-      // console.log(elem.offer.features)
-      let features = elem.offer.features
-      for (let i = 0; i < features.length; i++) {
-        // console.log(features[i])
-        housingFeaturesInput.forEach( (input) => {
-          if(input.checked) {
-            if (features[i] === input.value) {
-              rank += 0.5
-            }
-          }
-        });
-      }
-    })
+const renderFilter = (cb) => {
+  housingFeaturesInput.forEach( () => {
+    addEventListener('change', () => {
+      cb();
+    });
   })
-});
-
+}
 
 const getPointsRank = (point) => {
 
   let rank = 0;
 
-  if (point.offer.type === housingType.value) {
+  if (point.type === housingType.value) {
     rank += 3;
   }
 
-  if (point.offer.price === housingPrice.value) {
+  if (point.price === housingPrice.value) {
     rank += 1;
   }
 
-  if (point.offer.rooms === housingRooms.value) {
+  if (point.rooms === housingRooms.value) {
     rank += 1;
   }
 
-  if (point.offer.guests === housingGuests.value) {
+  if (point.guests === housingGuests.value) {
     rank += 1;
   }
 
+  let features = point.features;
+  for (let i = 0; i < features.length; i++) {
+    housingFeaturesInput.forEach( (input) => {
+      if(input.checked) {
+        if (features[i] === input.value) {
+          rank += 0.5;
+        }
+      }
+    });
+  }
+
+  console.log(rank)
   return rank;
-
-  // loadData( (points) => {
-  //   points.forEach( (elem) => {
-  //     let features = elem.offer.features
-  //     for (let i = 0; i < features.length; i++) {
-  //       housingFeaturesInput.forEach( (input) => {
-  //         if(input.checked) {
-  //           if (features[i] === input.value) {
-  //             rank += 0.5
-  //           }
-  //         }
-  //       });
-  //     }
-  //   });
-  // });
 }
 
-const cortPoint = (pointA, pointB) => {
+const sortPoint = (pointA, pointB) => {
   const rankA = getPointsRank(pointA);
   const rankB = getPointsRank(pointB);
 
   return rankB - rankA;
 }
+
+export { getPointsRank, sortPoint, housingFeatures, renderFilter }
+

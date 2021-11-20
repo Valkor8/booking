@@ -1,10 +1,11 @@
 import './load.js';
-import { loadData } from './load.js';
-// loadData();
+// import { loadData } from './load.js';
+import { sortPoint } from './map-filter.js';
 
 const adForm = document.querySelector('.ad-form');
 const mapFilters = document.querySelector('.map__filters');
 const address = document.querySelector('#address');
+
 
 adForm.classList.add('ad-form--disabled');
 adForm.querySelectorAll('fieldset').forEach((item) => {
@@ -89,7 +90,7 @@ const typeHome = (home) => {
 
 // Загрузка данных с серевера с помощью метода fetch
 
-loadData( (data) => {
+const getPoints = (data) =>  {
   const points = data.map((elem) => {
     const point = {
       lat: elem.location.lat,
@@ -113,8 +114,6 @@ loadData( (data) => {
   const createCustomPopup = (point) => {
     const baloonTemplate = document.querySelector('#card').content.querySelector('.popup');
     const popupElement = baloonTemplate.cloneNode(true);
-
-
 
     popupElement.querySelector('.popup__title').textContent = point.title;
     popupElement.querySelector('.popup__text--address').textContent = point.address;
@@ -160,36 +159,41 @@ loadData( (data) => {
     return popupElement;
   }
 
-  for (let i = 0; i < 10; i++) {
-    const point = points[i];
-    const {lat, lng} = point;
-    const markerIcon = L.icon({
-      iconUrl: '../leaflet/images/marker-icon.png',
-      iconSize: [25, 41],
-      iconAnchor: [12.5, 41],
-    });
+  points
+    .slice()
+    .sort(sortPoint)
+    .slice(0, 5)
+    .forEach( (point) => {
+      const {lat, lng} = point;
+      const markerIcon = L.icon({
+        iconUrl: '../leaflet/images/marker-icon.png',
+        iconSize: [25, 41],
+        iconAnchor: [12.5, 41],
+      });
 
-    const marker = L.marker(
-      {
-        lat,
-        lng,
-      },
-      {
-        icon: markerIcon,
-      },
-    );
-
-    marker
-      .addTo(mapCanvas)
-      .bindPopup(
-        createCustomPopup(point),
+      const marker = L.marker(
         {
-          keepInView: true,
+          lat,
+          lng,
         },
-      )
-  }
-});
+        {
+          icon: markerIcon,
+        },
+      );
 
+      marker.removeFrom(mapCanvas)
+
+
+      marker
+        .addTo(mapCanvas)
+        .bindPopup(
+          createCustomPopup(point),
+          {
+            keepInView: true,
+          },
+        )
+    })
+}
 
 // Загрузка данных с сервера с использованием XHR
 
@@ -292,4 +296,4 @@ loadData( (data) => {
 //   }
 // });
 
-export { mapCanvas, getAddressValue, mainMarker, adForm };
+export { mapCanvas, getAddressValue, mainMarker, adForm, getPoints };

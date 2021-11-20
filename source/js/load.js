@@ -33,6 +33,7 @@ const loadData = (onSuccess) => {
     })
     .then( (data) => {
       onSuccess(data);
+      return data;
     });
 };
 
