@@ -1,5 +1,6 @@
 
 const mapFilterContainer = document.querySelector('.map__filters-container');
+const mapFilterForm = mapFilterContainer.querySelector('form');
 const housingType = mapFilterContainer.querySelector('#housing-type');
 const housingPrice = mapFilterContainer.querySelector('#housing-price');
 const housingRooms = mapFilterContainer.querySelector('#housing-rooms');
@@ -8,34 +9,37 @@ const housingFeatures = mapFilterContainer.querySelector('#housing-features');
 const housingFeaturesInput = housingFeatures.querySelectorAll('input');
 
 const renderFilter = (cb) => {
-  housingFeaturesInput.forEach( () => {
-    addEventListener('change', () => {
-      cb();
-    });
-  })
+  mapFilterForm.addEventListener('change', () => {
+    cb();
+  });
 }
 
 const getPointsRank = (point) => {
 
   let rank = 0;
 
-  if (point.type === housingType.value) {
-    rank += 3;
-  }
-
-  if (point.price === housingPrice.value) {
+  if (point.offer.type === housingType.value) {
     rank += 1;
   }
 
-  if (point.rooms === housingRooms.value) {
+  // Поправить три следущих сравнения
+
+  if (point.offer.price === housingPrice.value) {
     rank += 1;
   }
 
-  if (point.guests === housingGuests.value) {
+  if (point.offer.rooms === housingRooms.value) {
+    rank += 1;
+
+  }
+
+  if (point.offer.guests === housingGuests.value) {
     rank += 1;
   }
 
-  let features = point.features;
+  // Поправить три предыдущих сравнения
+
+  let features = point.offer.features;
   for (let i = 0; i < features.length; i++) {
     housingFeaturesInput.forEach( (input) => {
       if(input.checked) {
@@ -46,7 +50,6 @@ const getPointsRank = (point) => {
     });
   }
 
-  console.log(rank)
   return rank;
 }
 
@@ -57,5 +60,5 @@ const sortPoint = (pointA, pointB) => {
   return rankB - rankA;
 }
 
-export { getPointsRank, sortPoint, housingFeatures, renderFilter }
+export { getPointsRank, sortPoint, housingFeatures, renderFilter, mapFilterForm }
 
