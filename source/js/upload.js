@@ -84,6 +84,7 @@ const getMessage = () => {
 }
 
 adForm.addEventListener('submit', function (evt) {
+  // inputErrorValidation();
   document.upload(new FormData(adForm),
     () => {
       adForm.reset();

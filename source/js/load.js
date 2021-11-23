@@ -1,4 +1,5 @@
 'use stirct';
+import { mapFilters } from './map.js';
 
 const map = document.querySelector('.map');
 const mapCanvas = document.querySelector('#map-canvas');
@@ -33,6 +34,10 @@ const loadData = (onSuccess) => {
     })
     .then( (data) => {
       onSuccess(data);
+      mapFilters.classList.remove('map__filters--disabled');
+      mapFilters.querySelectorAll('select').forEach((item) => {
+        item.removeAttribute('disabled');
+      });
       return data;
     });
 };

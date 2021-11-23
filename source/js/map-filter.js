@@ -22,22 +22,25 @@ const getPointsRank = (point) => {
     rank += 1;
   }
 
-  // Поправить три следущих сравнения
-
-  if (point.offer.price === housingPrice.value) {
+  if (point.offer.price < 10000 && housingPrice.value === 'low') {
     rank += 1;
   }
 
-  if (point.offer.rooms === housingRooms.value) {
-    rank += 1;
-
-  }
-
-  if (point.offer.guests === housingGuests.value) {
+  if (point.offer.price >= 10000 && 49999 >= point.offer.price && housingPrice.value === 'middle') {
     rank += 1;
   }
 
-  // Поправить три предыдущих сравнения
+  if (point.offer.price >= 50000 && housingPrice.value === 'high') {
+    rank += 1;
+  }
+
+  if (point.offer.rooms == housingRooms.value) {
+    rank += 1;
+  }
+
+  if (point.offer.guests == housingGuests.value) {
+    rank += 1;
+  }
 
   let features = point.offer.features;
   for (let i = 0; i < features.length; i++) {

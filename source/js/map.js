@@ -1,7 +1,7 @@
-import './load.js';
-import { mapFilterForm } from './map-filter.js';
-// import { loadData } from './load.js';
-import { sortPoint } from './map-filter.js';
+/* global L:readonly */
+/* global _:readonly */
+import { mapFilterForm, sortPoint } from './map-filter.js';
+import { RENDERER_DELAY } from './main.js';
 
 const adForm = document.querySelector('.ad-form');
 const mapFilters = document.querySelector('.map__filters');
@@ -22,11 +22,6 @@ const mapCanvas = L.map('map-canvas')
   .on('load', () => {
     adForm.classList.remove('ad-form--disabled');
     adForm.querySelectorAll('fieldset').forEach((item) => {
-      item.removeAttribute('disabled');
-    });
-
-    mapFilters.classList.remove('map__filters--disabled');
-    mapFilters.querySelectorAll('select').forEach((item) => {
       item.removeAttribute('disabled');
     });
   })
@@ -141,7 +136,7 @@ const getPoints = (data) =>  {
   }
 
   const markerLayer = new L.FeatureGroup().addTo(mapCanvas);
-  let MAX_POINTS = 5
+  let MAX_POINTS = 5;
 
   data
     .slice()
@@ -175,14 +170,14 @@ const getPoints = (data) =>  {
         )
     })
 
-  mapFilterForm.addEventListener('change', () => {
-    mapCanvas.removeLayer(markerLayer)
-  })
-}
+  const removeLayer = _.debounce(() => {
+    mapCanvas.removeLayer(markerLayer);
+  }, RENDERER_DELAY)
 
-// const clearMarker = () => {
-//   this.remove()
-// }
+  mapFilterForm.removeEventListener('change', removeLayer);
+
+  mapFilterForm.addEventListener('change', removeLayer);
+}
 
 // Загрузка данных с сервера с использованием XHR
 
@@ -285,4 +280,4 @@ const getPoints = (data) =>  {
 //   }
 // });
 
-export { mapCanvas, getAddressValue, mainMarker, adForm, getPoints };
+export { mapCanvas, getAddressValue, mainMarker, adForm, getPoints, mapFilters };
