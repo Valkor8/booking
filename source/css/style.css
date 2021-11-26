@@ -574,12 +574,24 @@ fieldset {
   margin-right: 10px;
   margin-bottom: 10px;
 
-  width: 70px;
-  height: 70px;
+  min-width: 70px;
+  max-width: 310px;
+  height: auto;
+  min-height: 70px;
 
   background-color: #e4e4de;
   border-radius: 5px;
+
+  display: flex;
+  flex-wrap: wrap;
+  padding: 5px;
 }
+
+.ad-form__photo img {
+  padding-right: 2px;
+  padding-bottom: 2px;
+}
+
 
 .ad-form__element--submit {
   -ms-flex-preferred-size: 100%;

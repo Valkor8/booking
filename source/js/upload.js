@@ -1,6 +1,7 @@
 'use stirct';
 
 import { adForm, getAddressValue, mainMarker } from './map.js';
+import { housePreview } from './preview.js';
 
 const main = document.querySelector('main');
 const errorTemplate = document.querySelector('#error').content.querySelector('.error');
@@ -8,6 +9,7 @@ const errorDiv = errorTemplate.cloneNode(true);
 const errorMessage = errorDiv.querySelector('.error__message');
 
 const adFormReset = document.querySelector('.ad-form__reset');
+const inputAdForm = adForm.querySelectorAll('input');
 
 const upLoadData = function () {
 
@@ -84,7 +86,6 @@ const getMessage = () => {
 }
 
 adForm.addEventListener('submit', function (evt) {
-  // inputErrorValidation();
   document.upload(new FormData(adForm),
     () => {
       adForm.reset();
@@ -101,9 +102,15 @@ adForm.addEventListener('submit', function (evt) {
 
 adFormReset.addEventListener('click', (evt) => {
   evt.preventDefault();
+  inputAdForm.forEach( (input) => {
+    if(input.classList.contains('input-invalid')) {
+      input.classList.remove('input-invalid')
+    }
+  });
   adForm.reset();
   mainMarker.setLatLng([35.67674, 139.74971]);
   getAddressValue();
+  housePreview.textContent = '';
 });
 
 const errorDivClose = () => {

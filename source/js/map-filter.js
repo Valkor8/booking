@@ -1,4 +1,4 @@
-
+'use stirct';
 const mapFilterContainer = document.querySelector('.map__filters-container');
 const mapFilterForm = mapFilterContainer.querySelector('form');
 const housingType = mapFilterContainer.querySelector('#housing-type');
@@ -34,11 +34,11 @@ const getPointsRank = (point) => {
     rank += 1;
   }
 
-  if (point.offer.rooms == housingRooms.value) {
+  if (point.offer.rooms === parseInt(housingRooms.value)) {
     rank += 1;
   }
 
-  if (point.offer.guests == housingGuests.value) {
+  if (point.offer.guests === parseInt(housingGuests.value)) {
     rank += 1;
   }
 

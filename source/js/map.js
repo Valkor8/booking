@@ -1,3 +1,4 @@
+'use stirct';
 /* global L:readonly */
 /* global _:readonly */
 import { mapFilterForm, sortPoint } from './map-filter.js';

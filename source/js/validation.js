@@ -1,12 +1,11 @@
+'use stirct';
+
 const adForm = document.querySelector('.ad-form');
 const formTitle = adForm.querySelector('#title');
 const typeHomeSelect = adForm.querySelector('#type');
 const priceHomeInput = adForm.querySelector('#price');
 const inputAdForm = adForm.querySelectorAll('input');
 const button = document.querySelector('.ad-form__submit');
-
-// console.log(inputAdForm)
-
 
 const MIN_LENGTH = 30;
 const MAX_LENGTH = 100;
@@ -63,44 +62,26 @@ typeHomeSelect.addEventListener('change', () => {
   }
 });
 
-// priceHomeInput.addEventListener('input', () => {
-//   if(priceHomeInput.classList.contains('input-invalid')) {
-//     priceHomeInput.classList.remove('input-invalid');
-//   }
-//   if(priceHomeInput.validity.rangeUnderflow) {
-//     priceHomeInput.setCustomValidity('Цена меньше минимально допустимой');
-//   } else if(priceHomeInput.validity.rangeOverflow) {
-//     priceHomeInput.setCustomValidity('Цена выше максимально допустимой');
-//   } else if(priceHomeInput.validity.valueMissing) {
-//     priceHomeInput.setCustomValidity('Укажите желаемую цену');
-//   } else {
-//     priceHomeInput.setCustomValidity('');
-//   }
+const timeIn = adForm.querySelector('#timein');
+const timeOut = adForm.querySelector('#timeout');
 
-//   priceHomeInput.reportValidity();
-// });
-
-
-const timein = adForm.querySelector('#timein');
-const timeout = adForm.querySelector('#timeout');
-
-timein.addEventListener('change', () => {
-  if(timein.value == '12:00') {
-    timeout.value = '12:00';
-  } else if(timein.value == '13:00') {
-    timeout.value = '13:00';
-  } else if(timein.value == '14:00') {
-    timeout.value = '14:00';
+timeIn.addEventListener('change', () => {
+  if(timeIn.value == '12:00') {
+    timeOut.value = '12:00';
+  } else if(timeIn.value == '13:00') {
+    timeOut.value = '13:00';
+  } else if(timeIn.value == '14:00') {
+    timeOut.value = '14:00';
   }
 });
 
-timeout.addEventListener('change', () => {
-  if(timeout.value == '12:00') {
-    timein.value = '12:00';
-  } else if(timeout.value == '13:00') {
-    timein.value = '13:00';
-  } else if(timeout.value == '14:00') {
-    timein.value = '14:00';
+timeOut.addEventListener('change', () => {
+  if(timeOut.value == '12:00') {
+    timeIn.value = '12:00';
+  } else if(timeOut.value == '13:00') {
+    timeIn.value = '13:00';
+  } else if(timeOut.value == '14:00') {
+    timeIn.value = '14:00';
   }
 });
 
@@ -108,56 +89,61 @@ const roomNumber = adForm.querySelector('#room_number');
 const capacity = adForm.querySelector('#capacity');
 const capacityOption = capacity.querySelectorAll('option');
 
+const optionHidden = (elem) => {
+  elem.removeAttribute('selected');
+  elem.style.display = 'none';
+  elem.setAttribute('disabled', '');
+}
+
+const optionShow = (elem) => {
+  elem.removeAttribute('selected');
+  elem.removeAttribute('disabled');
+  elem.style.display = 'block';
+}
+
 capacityOption.forEach( (elem) => {
   if(elem.value == 0 || elem.value == 2 || elem.value == 3) {
-    elem.style.display = 'none';
-    elem.removeAttribute('selected');
+    optionHidden(elem);
   } else {
-    elem.removeAttribute('selected');
-    elem.style.display = 'block';
-    elem.setAttribute('selected', '');
+    optionShow(elem);
   }
 });
 
 roomNumber.addEventListener('click', (evt) => {
-  if(evt.target.value == 1) {
+  if(parseInt(evt.target.value) === 1) {
     capacityOption.forEach( (elem) => {
-      if(elem.value == 0 || elem.value == 2 || elem.value == 3) {
-        elem.style.display = 'none';
-        elem.removeAttribute('selected');
+      if(parseInt(elem.value) === 0 || parseInt(elem.value) === 2 || parseInt(elem.value) === 3) {
+        optionHidden(elem);
       } else {
-        elem.removeAttribute('selected');
-        elem.style.display = 'block';
+        optionShow(elem);
         elem.setAttribute('selected', '');
       }
     });
-  } else if (evt.target.value == 2) {
+  }
+  if (evt.target.value == 2) {
     capacityOption.forEach( (elem) => {
       if(elem.value == 0 || elem.value == 3) {
-        elem.style.display = 'none';
-        elem.removeAttribute('selected');
+        optionHidden(elem);
       } else {
-        elem.style.display = 'block';
-        elem.setAttribute('selected', '');
+        optionShow(elem);
       }
     });
-  } else if (evt.target.value == 3) {
+  }
+  if (evt.target.value == 3) {
     capacityOption.forEach( (elem) => {
       if(elem.value == 0) {
-        elem.style.display = 'none';
-        elem.removeAttribute('selected');
+        optionHidden(elem);
       } else {
-        elem.style.display = 'block';
-        elem.setAttribute('selected', '');
+        optionShow(elem);
       }
     });
-  } else if (evt.target.value == 100) {
+  }
+  if (parseInt(evt.target.value) === 100) {
     capacityOption.forEach( (elem) => {
       if(elem.value == 1 || elem.value == 2 || elem.value == 3) {
-        elem.style.display = 'none';
-        elem.removeAttribute('selected');
+        optionHidden(elem);
       } else {
-        elem.style.display = 'block';
+        optionShow(elem);
         elem.setAttribute('selected', '');
       }
     });

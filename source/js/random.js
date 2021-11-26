@@ -1,3 +1,4 @@
+'use stirct';
 const getRandomInt = (min, max, rounding) => {
   if(!rounding) {
     rounding = 1;

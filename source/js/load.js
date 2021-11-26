@@ -23,12 +23,11 @@ const loadData = (onSuccess) => {
     .then( (responce) => {
       if (responce.ok){
         return responce.json();
-      } if (responce.status === 404) {
+      } else if (responce.status === 404) {
         errorLoad('Произошла ошибка загрузки объявлений.');
-      } if (responce.status === 500) {
+      } else if (responce.status === 500) {
         errorLoad('Истекло время ожидания сервера');
-      }
-      else {
+      } else {
         errorLoad('Произошла ошибка загрузки объявлений. Попробуйте обновить страницу или вернитесь позже!');
       }
     })
