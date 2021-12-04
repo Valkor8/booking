@@ -2,6 +2,7 @@
 
 import { adForm, getAddressValue, mainMarker } from './map.js';
 import { housePreview } from './preview.js';
+import { capacityOptionReset } from './validation.js';
 
 const main = document.querySelector('main');
 const errorTemplate = document.querySelector('#error').content.querySelector('.error');
@@ -89,6 +90,7 @@ adForm.addEventListener('submit', function (evt) {
   document.upload(new FormData(adForm),
     () => {
       adForm.reset();
+      capacityOptionReset();
       mainMarker.setLatLng([35.67674, 139.74971]);
       getAddressValue();
       getMessage();
@@ -108,6 +110,7 @@ adFormReset.addEventListener('click', (evt) => {
     }
   });
   adForm.reset();
+  capacityOptionReset();
   mainMarker.setLatLng([35.67674, 139.74971]);
   getAddressValue();
   housePreview.textContent = '';

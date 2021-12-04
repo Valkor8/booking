@@ -14,13 +14,14 @@
     "browser-sync": "2.26.14",
     "eslint": "7.18.0",
     "eslint-config-htmlacademy": "2.0.0",
+    "file-loader": "6.2.0",
     "leaflet": "1.7.1",
     "webpack": "5.24.4",
     "webpack-cli": "4.5.0"
   },
   "license": "MIT",
   "scripts": {
-    "start": "browser-sync start --server \"source/\" --no-ui --files \"source/**/*.js\"",
+    "start": "browser-sync start --server \"build/\" --no-ui --files \"source/**/*.js\"",
     "test": "eslint source/js/",
     "build": "webpack --mode production"
   },

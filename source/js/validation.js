@@ -90,48 +90,51 @@ const capacity = adForm.querySelector('#capacity');
 const capacityOption = capacity.querySelectorAll('option');
 
 const optionHidden = (elem) => {
-  elem.removeAttribute('selected');
   elem.style.display = 'none';
-  elem.setAttribute('disabled', '');
 }
 
 const optionShow = (elem) => {
-  elem.removeAttribute('selected');
-  elem.removeAttribute('disabled');
   elem.style.display = 'block';
 }
 
-capacityOption.forEach( (elem) => {
-  if(elem.value == 0 || elem.value == 2 || elem.value == 3) {
-    optionHidden(elem);
-  } else {
-    optionShow(elem);
-  }
-});
+const capacityOptionReset = () => {
+  return capacityOption.forEach( (elem) => {
+    if(+elem.value === 0 || +elem.value === 2 || +elem.value === 3) {
+      optionHidden(elem);
+    } else {
+      optionShow(elem);
+    }
+  });
+}
 
-roomNumber.addEventListener('click', (evt) => {
+capacityOptionReset();
+
+roomNumber.addEventListener('change', (evt) => {
+
   if(parseInt(evt.target.value) === 1) {
     capacityOption.forEach( (elem) => {
       if(parseInt(elem.value) === 0 || parseInt(elem.value) === 2 || parseInt(elem.value) === 3) {
         optionHidden(elem);
       } else {
+        capacity.value = 1;
         optionShow(elem);
-        elem.setAttribute('selected', '');
       }
     });
   }
-  if (evt.target.value == 2) {
+  if (+evt.target.value === 2) {
     capacityOption.forEach( (elem) => {
-      if(elem.value == 0 || elem.value == 3) {
+      if(+elem.value === 0 || +elem.value === 3) {
         optionHidden(elem);
       } else {
+        capacity.value = 2;
         optionShow(elem);
       }
     });
   }
   if (evt.target.value == 3) {
+    capacity.value = 3;
     capacityOption.forEach( (elem) => {
-      if(elem.value == 0) {
+      if(+elem.value === 0) {
         optionHidden(elem);
       } else {
         optionShow(elem);
@@ -140,13 +143,14 @@ roomNumber.addEventListener('click', (evt) => {
   }
   if (parseInt(evt.target.value) === 100) {
     capacityOption.forEach( (elem) => {
-      if(elem.value == 1 || elem.value == 2 || elem.value == 3) {
+      if(+elem.value === 1 || +elem.value === 2 || +elem.value === 3) {
         optionHidden(elem);
       } else {
+        capacity.value = 0;
         optionShow(elem);
-        elem.setAttribute('selected', '');
       }
     });
   }
 });
 
+export { capacityOptionReset };

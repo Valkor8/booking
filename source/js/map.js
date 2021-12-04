@@ -1,6 +1,7 @@
 'use stirct';
-/* global L:readonly */
 /* global _:readonly */
+import L from 'leaflet';
+// import 'leaflet/dist/leaflet.css';
 import { mapFilterForm, sortPoint } from './map-filter.js';
 import { RENDERER_DELAY } from './main.js';
 
@@ -69,7 +70,7 @@ let mainMarkerAddress = () => {
       return result;
     }).join(', ');
   });
-}
+};
 
 mainMarkerAddress();
 

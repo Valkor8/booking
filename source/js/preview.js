@@ -32,7 +32,6 @@ getPreview(fileChooser, avatarPreview);
 
 
 fileImageHouse.addEventListener('change', () => {
-  // housePreview.textContent = '';
   const files = fileImageHouse.files;
   if(files.length > MAX_IMAGE) {
     alert(`Выберите не больше ${MAX_IMAGE} изображений`);
@@ -44,12 +43,11 @@ fileImageHouse.addEventListener('change', () => {
     housePreview.textContent = '';
   });
 
-  for(let i = 0; i < files.length; i++) {
-    const fileName = files[i].name.toLowerCase();
-
+  Object.values(files).forEach( (file) => {
+    const fileName = file.name.toLowerCase();
     const matches = FILE_TYPES.some((it) => {
       return fileName.endsWith(it)
-    })
+    });
 
     if(matches) {
       const reader = new FileReader();
@@ -66,9 +64,9 @@ fileImageHouse.addEventListener('change', () => {
         housePreview.appendChild(img);
       });
 
-      reader.readAsDataURL(files[i]);
+      reader.readAsDataURL(file);
     }
-  }
+  });
 })
 
 export {housePreview};

@@ -3,7 +3,7 @@ import { mapFilters } from './map.js';
 
 const map = document.querySelector('.map');
 const mapCanvas = document.querySelector('#map-canvas');
-const mapFilter = document.querySelector('.map__filters-container')
+const mapFilter = document.querySelector('.map__filters-container');
 
 const errorLoad = (message) => {
   const newDiv = document.createElement('div');
@@ -14,7 +14,7 @@ const errorLoad = (message) => {
   mapCanvas.style.display = 'none';
   mapFilter.style.display = 'none';
   map.appendChild(newDiv);
-}
+};
 
 const loadData = (onSuccess) => {
   const URL_LOAD = 'https://22.javascript.pages.academy/keksobooking/data';
