@@ -12,18 +12,13 @@ import {renderFilter} from './map-filter.js';
 
 const RENDERER_DELAY = 500;
 
-const getFnLoadData = () => {
-  return () => {
-    loadData( (data) => {
-      getPoints(data);
-      renderFilter(_.debounce(
-        () => getPoints(data),
-        RENDERER_DELAY));
-    });
-  }
-}
+loadData( (data) => {
+  getPoints(data);
+  renderFilter(_.debounce(
+    () => getPoints(data),
+    RENDERER_DELAY));
+});
 
-const fnloadData = getFnLoadData ();
 
-export {RENDERER_DELAY, fnloadData};
+export {RENDERER_DELAY};
 

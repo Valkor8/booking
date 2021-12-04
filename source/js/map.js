@@ -9,7 +9,6 @@ const adForm = document.querySelector('.ad-form');
 const mapFilters = document.querySelector('.map__filters');
 const address = document.querySelector('#address');
 
-
 adForm.classList.add('ad-form--disabled');
 adForm.querySelectorAll('fieldset').forEach((item) => {
   item.setAttribute('disabled', '');
